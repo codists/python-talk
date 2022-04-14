@@ -10,4 +10,4 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
-CMD ["flask", "run"]
+CMD flask db upgrade && flask run
