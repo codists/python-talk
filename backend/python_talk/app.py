@@ -1,9 +1,9 @@
 from flask import Flask
 
+import config
+import models  # noqa
 from exts import db, cors, migrate
 
-import config
-import models
 
 app = Flask(__name__)
 app.config.from_object(config)

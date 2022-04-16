@@ -39,4 +39,3 @@ class User(Base):
 
     def check_password(self, value):
         return check_password_hash(self.__password, value)
-    
