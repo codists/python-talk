@@ -14,6 +14,11 @@ class Base(db.Model):
     def __repr__(self):
         return f'<{self.__class__.__name__!r} {self.__dict__!r}>'
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
+
 
 class User(Base):
 
