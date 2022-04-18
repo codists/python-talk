@@ -8,7 +8,7 @@ from datetime import timedelta, datetime
 
 import jwt
 
-from ..config import SECRET_KEY, ALGORITHM
+from config import SECRET_KEY, ALGORITHM
 
 
 def create_access_token(username: str,  expires_delta: timedelta | None = None):
@@ -33,9 +33,9 @@ def create_access_token(username: str,  expires_delta: timedelta | None = None):
         'iat':  datetime.datetime.utcnow(),
 
         # 自定义字段
-        'data': {
-            'id': username,
-        },
+        'username': username,
+        # 标识是否为一次性token，1是，0不是。
+        'flag': 1,
     }
 
     # 生成token
@@ -58,8 +58,17 @@ def identify(auth_header: str):
     """
     用户鉴权：验证payload里面的信息和设置的是否一样
     """
-    # TODO complete before 2022-04-18.
+    if auth_header:
+        payload = parse_access_token(auth_header)
+        if not payload:
+            return False
 
+        if 'username' in payload and 'flag' in payload:
+            if payload['flag'] == 1:
+                return payload['username']
+            else:
+                return False
+    return False
 
 
 

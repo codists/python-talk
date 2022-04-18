@@ -4,12 +4,13 @@ login
 """
 import re
 
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from sqlalchemy.sql import or_
 
 from models import User
 from utils.restful import restful
 from utils.schema import Schema, StringField
+from utils.security import create_access_token
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -70,3 +71,23 @@ def is_user_exist():
         return restful.error('The type must be username or email')
 
     return restful.success(data={'exist': bool(User.query.filter_by(**{type_: data}).first())})
+
+
+@user_bp.post('/login')
+def login():
+    username = request.json['username']
+    password = request.json['password']
+
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    user = User.get_or_none(User.username == username, User.password == password)
+
+    if user is None:
+        return jsonify({'success': False, 'message': 'Bad username or password'}), 401
+
+    access_token = create_access_token(identity=username)
+    return jsonify({'success': True, 'token': access_token}), 200
+
