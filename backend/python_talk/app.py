@@ -3,6 +3,7 @@ from flask import Flask, Blueprint
 import config
 import models  # noqa
 from exts import db, cors, migrate
+from utils.restful import restful
 from blueprints import user
 
 app = Flask(__name__)
@@ -16,6 +17,13 @@ migrate.init_app(app, db)
 # 注册蓝图
 api = Blueprint('api', __name__, url_prefix='/api')
 api.register_blueprint(user.user_bp)
+
+
+@api.errorhandler(400)
+def api_bad_request(error):
+    return restful.error('Bad request'), 400
+
+
 app.register_blueprint(api)
 
 
