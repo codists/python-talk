@@ -1,7 +1,8 @@
 import secrets
 
 # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@db:3306/python_talk?charset=utf8'
-SQLALCHEMY_DATABASE_URI = 'sqlite:////test.db'
+SQLALCHEMY_DATABASE_URI = "sqlite:////home/codists/projects/python-talk/backend/python_talk/test.sqlite"
+# 问题：相对路径如何表示
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # 用于生成JWT

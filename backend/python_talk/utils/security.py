@@ -5,8 +5,10 @@ ref2: https://github.com/yaoyonstudio/flask-pyjwt-auth
 """
 # 采用secrets库随机生成SECRET_KEY
 from datetime import timedelta, datetime
+from functools import wraps
 
 import jwt
+from flask import request,jsonify
 
 from config import SECRET_KEY, ALGORITHM
 
@@ -30,7 +32,7 @@ def create_access_token(username: str,  expires_delta: timedelta | None = None):
         # 签发人
         'iss': 'python-talk',
         # 签发时间
-        'iat':  datetime.datetime.utcnow(),
+        'iat':  datetime.utcnow(),
 
         # 自定义字段
         'username': username,
@@ -49,27 +51,42 @@ def parse_access_token(auth_token: str):
     try:
         payload = jwt.decode(auth_token, SECRET_KEY, ALGORITHM)
     except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, jwt.InvalidSignatureError):
-        return '无效Token'
+        return None
     else:
         return payload
 
 
-def identify(auth_header: str):
+def identify(auth_token: str):
     """
     用户鉴权：验证payload里面的信息和设置的是否一样
     """
-    if auth_header:
-        payload = parse_access_token(auth_header)
-        if not payload:
+    if auth_token:
+        payload = parse_access_token(auth_token)
+        if payload:
+            if 'username' in payload and 'flag' in payload:
+                if payload['flag'] == 0:
+                    return payload['username']
+                else:
+                    return False
+        else:
             return False
-
-        if 'username' in payload and 'flag' in payload:
-            if payload['flag'] == 1:
-                return payload['username']
-            else:
-                return False
     return False
 
+
+def login_required(func):
+    """
+    验证用户是否登录
+    """
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        auth_token = request.headers.get('Authorization', None)
+        if not auth_token:
+            return jsonify({'success': False, 'message': 'Permission Denied'}), 403
+        username = identify(auth_token)
+        if username:
+            return func(*args, **kwargs)
+        return jsonify({'success': False, 'message': 'Permission Denied'}), 403
+    return wrapper
 
 
 

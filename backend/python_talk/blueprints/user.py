@@ -3,14 +3,16 @@ register
 login
 """
 import re
+from datetime import timedelta
 
 from flask import Blueprint, request, jsonify
-from sqlalchemy.sql import or_
+from sqlalchemy.sql import or_, and_
+from werkzeug.security import generate_password_hash
 
 from models import User
 from utils.restful import restful
-from utils.schema import Schema, StringField
-from utils.security import create_access_token
+from schema import Schema, StringField
+from ..utils.security import create_access_token, identify, login_required
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -75,19 +77,31 @@ def is_user_exist():
 
 @user_bp.post('/login')
 def login():
-    username = request.json['username']
-    password = request.json['password']
+    username = request.json.get('username')
+    password = request.json.get('password')
 
     if not username:
         return jsonify({"msg": "Missing username parameter"}), 400
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
 
-    user = User.get_or_none(User.username == username, User.password == password)
+    user = User.query.filter(
+        and_(User.username == username, User.password == generate_password_hash(password))
+    )
 
     if user is None:
         return jsonify({'success': False, 'message': 'Bad username or password'}), 401
 
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(username, expires_delta=timedelta(days=2))
     return jsonify({'success': True, 'token': access_token}), 200
+
+
+@user_bp.post('/current_user')
+@login_required
+def current_user():
+    """
+    获取用户信息
+    :return: json
+    """
+    return jsonify()
 
