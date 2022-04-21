@@ -23,7 +23,6 @@ def create_access_token(user_id: str,  expires_delta: timedelta | None = None):
     else:
         # 默认过期时间为7天
         expire = datetime.utcnow() + timedelta(days=7)
-
     # 设置payload
     payload = {
         # JWT规定了七个官方字段：https://datatracker.ietf.org/doc/html/rfc7519#section-4.1
@@ -50,7 +49,7 @@ def parse_access_token(auth_token: str):
     JWT所有的异常都继承自 PyJWTError
     """
     try:
-        payload = jwt.decode(auth_token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(auth_token, SECRET_KEY, algorithms='HS256')
     except jwt.ExpiredSignatureError:
         return None
     return payload
@@ -78,7 +77,6 @@ def login_required(func):
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        print('login_required')
         identify()
         if not g.user_id:
             return jsonify({'success': False, 'message': 'Permission Denied'}), 403
