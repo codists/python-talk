@@ -5,14 +5,14 @@ login
 import re
 from datetime import timedelta
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 from sqlalchemy.sql import or_, and_
 from werkzeug.security import generate_password_hash
 
 from models import User
 from utils.restful import restful
-from schema import Schema, StringField
-from ..utils.security import create_access_token, identify, login_required
+from utils.schema import Schema, StringField
+from utils.security import create_access_token, identify, login_required
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -92,7 +92,7 @@ def login():
     if user is None:
         return jsonify({'success': False, 'message': 'Bad username or password'}), 401
 
-    access_token = create_access_token(username, expires_delta=timedelta(days=2))
+    access_token = create_access_token(username, expires_delta=timedelta(seconds=2))
     return jsonify({'success': True, 'token': access_token}), 200
 
 
@@ -100,8 +100,11 @@ def login():
 @login_required
 def current_user():
     """
-    获取用户信息
+    get current user info.
     :return: json
     """
-    return jsonify()
+    if g.user_id:
+        # User.query.filter(id=g.user_id)
+        return jsonify({'success': True, 'msg': 'OK'}), 200
+    return jsonify({'success': False, 'token': 'Permission Denied'}), 403
 

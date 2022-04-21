@@ -8,12 +8,12 @@ from datetime import timedelta, datetime
 from functools import wraps
 
 import jwt
-from flask import request,jsonify
+from flask import request, jsonify, g
 
 from config import SECRET_KEY, ALGORITHM
 
 
-def create_access_token(username: str,  expires_delta: timedelta | None = None):
+def create_access_token(user_id: str,  expires_delta: timedelta | None = None):
     """
     生成JWT
     """
@@ -22,7 +22,7 @@ def create_access_token(username: str,  expires_delta: timedelta | None = None):
         expire = datetime.utcnow() + expires_delta
     else:
         # 默认过期时间为7天
-        expire = datetime.utcnow() + timedelta(day=7)
+        expire = datetime.utcnow() + timedelta(days=7)
 
     # 设置payload
     payload = {
@@ -35,7 +35,7 @@ def create_access_token(username: str,  expires_delta: timedelta | None = None):
         'iat':  datetime.utcnow(),
 
         # 自定义字段
-        'username': username,
+        'user_id': user_id,
         # 标识是否为一次性token，1是，0不是。
         'flag': 1,
     }
@@ -47,45 +47,43 @@ def create_access_token(username: str,  expires_delta: timedelta | None = None):
 def parse_access_token(auth_token: str):
     """
     解析token:
+    JWT所有的异常都继承自 PyJWTError
     """
     try:
-        payload = jwt.decode(auth_token, SECRET_KEY, ALGORITHM)
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, jwt.InvalidSignatureError):
+        payload = jwt.decode(auth_token, SECRET_KEY, algorithms=[ALGORITHM])
+    except jwt.ExpiredSignatureError:
         return None
-    else:
-        return payload
+    return payload
 
 
-def identify(auth_token: str):
+def identify():
     """
     用户鉴权：验证payload里面的信息和设置的是否一样
     """
-    if auth_token:
-        payload = parse_access_token(auth_token)
-        if payload:
-            if 'username' in payload and 'flag' in payload:
-                if payload['flag'] == 0:
-                    return payload['username']
-                else:
-                    return False
-        else:
-            return False
-    return False
+
+    g.user_id = None
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        # the format of JWT in frontend:Authorization: Bearer <token>,参考： https://jwt.io/introduction/
+        auth_token = auth_header.split(' ')
+        if auth_token and auth_token[0] == 'Bearer' and len(auth_token) == 2:
+            payload = parse_access_token(auth_token[1])
+            if payload:
+                g.user_id = payload.get('user_id')
 
 
 def login_required(func):
     """
-    验证用户是否登录
+    authorization.
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        auth_token = request.headers.get('Authorization', None)
-        if not auth_token:
+        print('login_required')
+        identify()
+        if not g.user_id:
             return jsonify({'success': False, 'message': 'Permission Denied'}), 403
-        username = identify(auth_token)
-        if username:
+        else:
             return func(*args, **kwargs)
-        return jsonify({'success': False, 'message': 'Permission Denied'}), 403
     return wrapper
 
 
