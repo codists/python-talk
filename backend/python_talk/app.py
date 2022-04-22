@@ -3,8 +3,10 @@ from flask import Flask, Blueprint
 import config
 import models  # noqa
 from exts import db, cors, migrate
+from utils.security import identify
 from utils.restful import restful
 from blueprints import user
+
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -17,6 +19,9 @@ migrate.init_app(app, db)
 # 注册蓝图
 api = Blueprint('api', __name__, url_prefix='/api')
 api.register_blueprint(user.user_bp)
+
+# 获取token
+app.before_request(identify)
 
 
 @api.errorhandler(400)

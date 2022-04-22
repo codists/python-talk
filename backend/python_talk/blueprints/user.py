@@ -81,19 +81,23 @@ def login():
     password = request.json.get('password')
 
     if not username:
-        return jsonify({"msg": "Missing username parameter"}), 400
+        return jsonify({'msg': '请填写用户名'}), 400
     if not password:
-        return jsonify({"msg": "Missing password parameter"}), 400
+        return jsonify({'msg': '请填写密码'}), 400
 
-    user = User.query.filter(
-        and_(User.username == username, User.password == generate_password_hash(password))
-    )
+    # TODO: 2022-04-22前完成用户查询
+    # user = User.query.filter(
+    #     and_(User.username == username, User.password == generate_password_hash(password))
+    # )
+    user = User.query.filter_by(username='guest').first()
+    print(111, user)
 
     if user is None:
         return jsonify({'success': False, 'message': 'Bad username or password'}), 401
 
-    access_token = create_access_token(username, expires_delta=timedelta(seconds=50))
-    return jsonify({'success': True, 'token': access_token}), 200
+    access_token, refresh_token = create_access_token(username, expires_delta=timedelta(minutes=2),
+                                                      need_refresh_token=True)
+    return jsonify({'success': True, 'access_token': access_token, 'refresh_token': refresh_token}), 200
 
 
 @user_bp.post('/current_user')
@@ -104,6 +108,19 @@ def current_user():
     :return: json
     """
     if g.user_id:
-        return jsonify({'success': True, 'msg': 'OK'}), 200
+        return jsonify({'success': True, 'msg': 'ok'}), 200
     return jsonify({'success': False, 'token': 'Permission Denied'}), 403
+
+
+@user_bp.post('/token')
+def update_access_token():
+    """
+    1.通过refresh_token获取新的access_token
+    2.请求该函数的时候，使用的是refresh_token
+    """
+    if g.user_id and g.is_refresh:
+        access_token, _ = create_access_token(g.user_id)
+        return jsonify({'success': True, 'access_token': access_token, 'msg': '更新access_token成功'}), 201
+    else:
+        return jsonify({'success': False, 'msg': 'refresh_token错误'}), 403
 
