@@ -1,8 +1,9 @@
-import secrets
+import os
 
 # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@db:3306/python_talk?charset=utf8'
-# SQLALCHEMY_DATABASE_URI = "sqlite:////home/codists/projects/python-talk/backend/python_talk/test.sqlite"
-SQLALCHEMY_DATABASE_URI = "sqlite:///tests.sqlite"
+SQLALCHEMY_DATABASE_URI = "sqlite:///test.sqlite"
+
+
 # 问题：相对路径如何表示
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 

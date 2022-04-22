@@ -7,7 +7,7 @@ from datetime import timedelta
 
 from flask import Blueprint, request, jsonify, g
 from sqlalchemy.sql import or_, and_
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 
 from models import User
 from utils.restful import restful
@@ -85,19 +85,13 @@ def login():
     if not password:
         return jsonify({'msg': '请填写密码'}), 400
 
-    # TODO: 2022-04-22前完成用户查询
-    # user = User.query.filter(
-    #     and_(User.username == username, User.password == generate_password_hash(password))
-    # )
-    user = User.query.filter_by(username='guest').first()
-    print(111, user)
-
-    if user is None:
-        return jsonify({'success': False, 'message': 'Bad username or password'}), 401
-
-    access_token, refresh_token = create_access_token(username, expires_delta=timedelta(minutes=2),
-                                                      need_refresh_token=True)
-    return jsonify({'success': True, 'access_token': access_token, 'refresh_token': refresh_token}), 200
+    user = User.query.filter_by(username=username).first()
+    if user and user.check_password(password):
+        access_token, refresh_token = create_access_token(username, expires_delta=timedelta(minutes=2),
+                                                          need_refresh_token=True)
+        return jsonify({'success': True, 'access_token': access_token, 'refresh_token': refresh_token}), 200
+    else:
+        return jsonify({'success': False, 'message': '用户名或者密码错误'}), 401
 
 
 @user_bp.post('/current_user')
@@ -123,4 +117,3 @@ def update_access_token():
         return jsonify({'success': True, 'access_token': access_token, 'msg': '更新access_token成功'}), 201
     else:
         return jsonify({'success': False, 'msg': 'refresh_token错误'}), 403
-
