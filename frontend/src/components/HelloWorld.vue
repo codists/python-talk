@@ -27,15 +27,22 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <h1>
+     <el-button> python论坛</el-button>
+    </h1>
   </div>
 </template>
 
 <script>
+import { ElButton } from 'element-plus'
+
 export default {
+
   name: 'HelloWorld',
   props: {
     msg: String
-  }
+  },
+  components: { ElButton },
 }
 </script>
 
