@@ -4,16 +4,19 @@
 // 模拟数据
 const menus = [
   {
-    "id": "1",
-    "name": "首页"
+    id: 1,
+    path: "",
+    name: "首页"
   },
   {
-    "id": "2",
-    "name": "登录"
+    id: 2,
+    path: "login",
+    name: "登录"
   },
   {
-    "id": "3",
-    "name": "注册"
+    id: 3,
+    path: "register",
+    name: "注册"
   },
 ]
 import {ref} from 'vue'
@@ -34,10 +37,11 @@ const handleSelect = (key, keyPath) => {
       background-color="1f2a32"
       :ellipsis="false"
       @select="handleSelect"
+      router
   >
     <img src="@/assets/images/python-logo@2x.png" class="python-logo">
     <div class="flex-grow"/>
-    <el-menu-item v-for="menu in menus" :index="menu.id" v-bind:key="menu.id">{{ menu.name }}</el-menu-item>
+    <el-menu-item v-for="menu in menus" :index="menu.path" v-bind:key="menu.id">{{ menu.name }}</el-menu-item>
   </el-menu>
 
 </template>

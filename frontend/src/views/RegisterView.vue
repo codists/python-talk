@@ -17,7 +17,7 @@ const resetForm = () => {
 </script>
 
 <template>
-    <div class="common-layout" >
+  <div class="common-layout">
     <el-container>
       <el-main>
         <h1>注册</h1>
@@ -56,9 +56,8 @@ const resetForm = () => {
       <el-aside width="200px">
         <h2 class="widget-title">已有账号？</h2>
         <p>如果您已经帐户，请点击“登录”</p>
-<!--        <el-button type="default" class="loginBtn">登录</el-button>-->
         <p>
-          <a class="loginBtn">登录</a>
+          <router-link class="loginBtn" to="/login">登录</router-link>
         </p>
       </el-aside>
     </el-container>
@@ -67,6 +66,7 @@ const resetForm = () => {
 <style scoped>
 .el-main {
   margin-right: 10%;
+  margin-top: 12px;
 }
 
 /*文字基本设置*/
@@ -94,9 +94,11 @@ h1 {
   font-size: 1.5em;
   line-height: 1.5em;
 }
+
 p {
   color: #999999;
 }
+
 .loginBtn {
   display: inline-block;
   margin-top: 10px;
@@ -104,6 +106,7 @@ p {
   color: #4D4D4D;
   background-color: #CCCCCC;
   border-radius: 5px;
+  text-decoration: none;
 }
 
 .loginBtn:hover {
@@ -111,6 +114,7 @@ p {
 }
 
 .el-aside {
+  margin-top: 20px;
   border-top: 5px solid #e6e8ea;
   padding: 1.25em;
 }

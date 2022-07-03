@@ -2,9 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
+    // 这里不是自动加载的首页
     path: '/',
     name: 'home',
-    component: () => import("../views/IndexView.vue")
+    // component: () => import("../views/IndexView.vue")
   },
   {
     path: '/about',

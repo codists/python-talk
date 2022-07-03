@@ -1,6 +1,9 @@
 <template>
   <div class="footer">
-    <span>Copyright ©2001-2022. Github</span>
+    <span>
+      Copyright ©2001-2022.
+      <a href="https://github.com/codists/python-talk" target="_blank">Github</a>
+    </span>
   </div>
 </template>
 

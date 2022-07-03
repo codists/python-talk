@@ -1,7 +1,6 @@
 <script setup>
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import RegisterView from '@/views/RegisterView'
 </script>
 
 <template>
@@ -10,7 +9,7 @@ import RegisterView from '@/views/RegisterView'
       <Header/>
     </el-header>
     <el-main class="main">
-      <RegisterView/>
+      <router-view></router-view>
     </el-main>
     <Footer></Footer>
   </el-container>

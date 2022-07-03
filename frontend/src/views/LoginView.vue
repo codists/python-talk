@@ -1,24 +1,22 @@
 <template>
-<h1>登录</h1>
+  <h1>登录</h1>
   <el-form :model="form">
     <el-form-item>
-      <el-input placeholder="请输入邮箱" v-model.email="form.email" />
+      <el-input placeholder="请输入邮箱" v-model.email="form.email"/>
     </el-form-item>
     <el-form-item>
-      <el-input placeholder="请输入密码" v-model.password="form.password" />
+      <el-input placeholder="请输入密码" v-model.password="form.password"/>
     </el-form-item>
 
     <el-form-item>
-      <el-button class="forgotPassword" type="default" @click="onForgotPassword"
-        >忘记密码</el-button
-      >
+      <el-button class="forgotPassword" type="default" @click="onForgotPassword">忘记密码</el-button>
       <el-button type="default" @click="onLogin">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import {reactive} from "vue";
 
 const form = reactive({
   email: "",

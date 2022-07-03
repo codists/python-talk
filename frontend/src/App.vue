@@ -1,5 +1,8 @@
+<script setup>
+  import IndexView from "@/views/IndexView";
+</script>
 <template>
-  <router-view/>
+  <IndexView></IndexView>
 </template>
 
 <style>
