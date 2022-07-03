@@ -1,6 +1,7 @@
 <script setup>
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import RegisterView from '@/views/RegisterView'
 </script>
 
 <template>
@@ -9,8 +10,9 @@ import Footer from '@/components/Footer'
       <Header/>
     </el-header>
     <el-main class="main">
+      <RegisterView/>
     </el-main>
-      <Footer></Footer>
+    <Footer></Footer>
   </el-container>
 </template>
 
@@ -25,7 +27,13 @@ import Footer from '@/components/Footer'
 .main {
   width: 80%;
   height: 860px;
-  background-color: azure;
-  margin: 12px auto;
+  /*background-color: azure;*/
+  margin: 25px auto;
 }
+
+.el-main {
+  /* 取消布局里面main层的padding*/
+  --el-main-padding: 0;
+}
+
 </style>
