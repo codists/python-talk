@@ -59,8 +59,5 @@ const handleSelect = (key, keyPath) => {
 .el-menu-item {
   width: 121px;
 }
-.el-menu-item:not(.is-disabled):hover {
-  outline: 0;
-  background-color: #1f2a32;
-}
+
 </style>
