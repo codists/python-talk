@@ -18,3 +18,18 @@ def make_celery(app):
 
     celery.Task = ContextTask
     return celery
+
+
+class CeleryFactory(Celery):
+
+    def init_app(self, flask_app):
+        self.__init__(flask_app.import_name)
+        self.config_from_object('celery_config')
+
+        class ContextTask(self.Task):
+            def __call__(self, *args, **kwargs):
+                with flask_app.app_context():
+                    return self.run(*args, **kwargs)
+
+        self.Task = ContextTask
+        return self

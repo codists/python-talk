@@ -2,10 +2,11 @@ from flask import Flask, Blueprint
 
 import config
 import models  # noqa
-from exts import db, cors, migrate, mail
+from exts import db, cors, migrate, mail, celery
 from utils.security import identify
 from utils.restful import restful
 from blueprints import user
+
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -15,6 +16,7 @@ db.init_app(app)
 cors.init_app(app)
 migrate.init_app(app, db)
 mail.init_app(app)
+celery.init_app(app)
 
 # 注册蓝图
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -35,3 +37,7 @@ app.register_blueprint(api)
 @app.get('/')
 def index():
     return 'Python Talk!'
+
+
+if __name__ == '__main__':
+    app.run()
