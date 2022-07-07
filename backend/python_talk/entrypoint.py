@@ -1,7 +1,7 @@
 import time
 import subprocess
 
-from app import app, db
+from backend.python_talk.app import app, db
 
 
 def wait_db(application, database, interval=3):

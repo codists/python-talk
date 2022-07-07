@@ -8,11 +8,13 @@ from datetime import timedelta
 from flask import Blueprint, request, jsonify, g
 from sqlalchemy.sql import or_, and_
 from werkzeug.security import check_password_hash
+from flask_mail import Message
 
 from models import User
 from utils.restful import restful
 from utils.schema import Schema, StringField
 from utils.security import create_access_token, identify, login_required
+from tasks import async_send_email
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -117,3 +119,10 @@ def update_access_token():
         return jsonify({'success': True, 'access_token': access_token, 'msg': '更新access_token成功'}), 201
     else:
         return jsonify({'success': False, 'msg': 'refresh_token错误'}), 403
+
+
+@user_bp.post('/mail')
+def register_verify():
+    msg = Message('Hello from Flask', recipients=['952328342@qq.com'])
+    msg.body = 'This is a test email sent from a background Celery task.'
+    async_send_email.delay(msg)

@@ -6,7 +6,7 @@ services:
     ports:
       - "9000:5000"
     volumes:
-      - ./python_talk/:/app
+      - ./python_talk/:/app1
     environment:
       - TZ=Asia/Shanghai
     depends_on:
