@@ -3,7 +3,7 @@ application factory参考： https://flask.palletsprojects.com/en/latest/pattern
 """
 from flask import Flask
 
-from config import config_class_name
+from python_talk.config import config_class_name
 
 
 def create_app(config_name=None):
