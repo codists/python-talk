@@ -6,7 +6,7 @@ $ git clone https://github.com/codists/python-talk.git
 - create and activate virtual environment
 ```python
 $ cd python-talk/backend/
-python-talk/backend$python-talk$ python -m venv venv
+backend$ source ./venv/bin/activate
 ```
 - install requirements.txt
 ```python

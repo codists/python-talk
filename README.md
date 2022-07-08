@@ -13,7 +13,7 @@ $ git clone https://github.com/codists/python-talk.git
 
 ```python
 $ cd python-talk/backend/
-python-talk/backend$python-talk$ python -m venv venv
+backend$ source ./venv/bin/activate
 ```
 
 - install requirements.txt
