@@ -11,7 +11,6 @@ def make_celery(app):
         ]
     )
     celery.conf.update(app.config['CELERY_CONFIG'])
-    print("app.config['CELERY_CONFIG']", app.config['CELERY_CONFIG'])
 
     class ContextTask(celery.Task):
         def __call__(self, *args, **kwargs):
