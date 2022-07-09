@@ -1,21 +1,20 @@
-"""
-"""
-from celery import Celery
+
+from celery import Celery as Celery_
 
 
-def make_celery(app):
-    celery = Celery(
-        app.import_name,
-        include=[
-            'python_talk.tasks',
-        ]
-    )
-    celery.conf.update(app.config['CELERY_CONFIG'])
+class Celery(Celery_):
 
-    class ContextTask(celery.Task):
+    def init_app(self, flask_app=None):
+        self.conf.update(flask_app.config['CELERY_CONFIG'])
+        self.Task = create_context_task(flask_app, self.Task)
+        flask_app.celery = self
+
+
+def create_context_task(flask_app, base_task_class):
+
+    class ContextTask(base_task_class):
         def __call__(self, *args, **kwargs):
-            with app.app_context():
+            with flask_app.app_context():
                 return self.run(*args, **kwargs)
 
-    celery.Task = ContextTask
-    return celery
+    return ContextTask

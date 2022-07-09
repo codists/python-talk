@@ -4,8 +4,6 @@ application factory参考： https://flask.palletsprojects.com/en/latest/pattern
 from flask import Flask
 
 from python_talk.config import config_class_name
-from python_talk.extensions import mail
-from python_talk.blueprints.user import user_bp
 
 
 def create_app(config_name=None):
@@ -22,12 +20,13 @@ def create_app(config_name=None):
 
 
 def register_extensions(app):
+    from python_talk.extensions import mail, celery
+
     mail.init_app(app)
+    celery.init_app(app)
 
 
 def register_blueprints(app):
+    from python_talk.blueprints.user import user_bp
+
     app.register_blueprint(user_bp, url_prefix='/user')
-
-
-
-
