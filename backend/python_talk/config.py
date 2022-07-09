@@ -18,6 +18,22 @@ else:
 class Config(object):
     TESTING = False
 
+    # send email
+    MAIL_SERVER = 'smtp.163.com'
+    MAIL_USERNAME = 'codists@163.com'
+    MAIL_PASSWORD = ''
+    MAIL_DEFAULT_SENDER = "默认发送人"
+    MAIL_USE_SSL = True
+    # MAIL_USE_TLS = False
+    # MAIL_PORT = 465
+    MAIL_PORT = 587
+
+    # celery
+    CELERY_CONFIG = {
+        'broker_url': 'redis://localhost:6379/0',
+        'result_backend': 'redis://localhost:6379/0'
+    }
+
 
 class ProductionConfig(Config):
     DATABASE_URI = 'mysql://user@localhost/foo'

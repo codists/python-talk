@@ -25,9 +25,15 @@ python-talk/backend$ pip install -r requirements.txt
 - run 
 
 ```python
-python-talk/backend$ flask run
+backend$ cd python_talk/
+backend/python_talk$ export FLASK_APP=entrypoint
+backend/python_talk$ flask run
 ```
+# How to run Celery
+```python
+backend/python_talk$ celery -A entrypoint.celery worker -l info
 
+```
 # How to run frontend
 
 Todo
