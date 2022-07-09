@@ -42,6 +42,8 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     # turn on debug
     DATABASE_URI = prefix + os.path.join(basedir, 'dev.db')
+    FLASK_ENV = 'development'
+    FLASK_RUN_PORT = 9000
 
 
 class TestingConfig(Config):

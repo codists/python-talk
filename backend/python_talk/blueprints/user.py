@@ -7,5 +7,5 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 @user_bp.get('/')
 def test():
     print('test')
-    hello_world().delay()
+    hello_world.delay()
     return 'This is test'

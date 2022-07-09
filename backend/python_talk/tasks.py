@@ -2,6 +2,6 @@
 from celery import current_app as celery
 
 
-@celery.task
+@celery.send_task
 def hello_world():
     print('Hello World')
