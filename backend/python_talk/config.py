@@ -18,15 +18,14 @@ else:
 class Config(object):
     TESTING = False
 
-    # send email
+    # email
     MAIL_SERVER = 'smtp.163.com'
+    MAIL_PORT = 465  # gmail: 587, qq mail:465, 163 mail: 465/994(ssl), 25(non-ssl)
     MAIL_USERNAME = 'codists@163.com'
-    MAIL_PASSWORD = ''
-    MAIL_DEFAULT_SENDER = "默认发送人"
+    MAIL_PASSWORD = 'IYUUWQLLOBSVBRWL'
+    MAIL_DEFAULT_SENDER = 'codists@163.com'
     MAIL_USE_SSL = True
     # MAIL_USE_TLS = False
-    # MAIL_PORT = 465
-    MAIL_PORT = 587
 
     # celery
     CELERY_CONFIG = {

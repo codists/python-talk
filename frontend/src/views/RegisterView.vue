@@ -3,17 +3,42 @@ import {ref} from 'vue'
 import {reactive} from 'vue'
 
 const labelPosition = ref('top')
-const registerForm = reactive(
-    {
+
+const submitForm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid) => {
+    if (valid) {
+     return true
+    } else {
+      return false
+    }
+  })
+}
+const ruleFormRef = ref()
+const registerForm = reactive({
       email: '',
       username: '',
       password: '',
       checkPass: ''
     }
 )
-const resetForm = () => {
-  console.log('submit!')
-}
+const rules = reactive({
+  email: [
+    {required: true, message: '请输入邮箱', trigger: 'blur'},
+    {type: 'email', message: '邮箱格式错误', trigger: ['blur', 'change']}
+  ],
+  username: [
+    {required: true, message: '请输入用户名', trigger: 'blur'},
+  ],
+  password: [
+    {required: true, message: '请输入密码', trigger: 'blur'},
+  ],
+  checkPass: [
+    {required: true, message: '请再次输入密码', trigger: 'blur'},
+  ]
+})
+
+
 </script>
 
 <template>
@@ -31,13 +56,13 @@ const resetForm = () => {
             class="demo-ruleForm"
         >
           <el-form-item label="邮箱" prop="email" class="item">
-            <el-input v-model.email="registerForm.age" placeholder="E-mail address"/>
+            <el-input v-model.email="registerForm.email" placeholder="E-mail address"/>
           </el-form-item>
           <el-form-item label="用户名" prop="username">
-            <el-input v-model.username="registerForm.age" placeholder="Username"/>
+            <el-input v-model.username="registerForm.username" placeholder="Username"/>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="registerForm.pass" type="password" autocomplete="off" placeholder="Password"/>
+            <el-input v-model="registerForm.password" type="password" autocomplete="off" placeholder="Password"/>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
             <el-input
@@ -48,7 +73,7 @@ const resetForm = () => {
             />
           </el-form-item>
           <el-form-item>
-            <el-button type="default" @click="resetForm()">提交 »</el-button>
+            <el-button type="default" @click="submitForm(ruleFormRef)">提交 »</el-button>
           </el-form-item>
         </el-form>
       </el-main>

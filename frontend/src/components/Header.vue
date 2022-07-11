@@ -22,8 +22,8 @@ const menus = [
 import {ref} from 'vue'
 
 const activeIndex = ref('1')
-const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
+const handleSelect = () => {
+  console.log('in header.vue')
 }
 </script>
 

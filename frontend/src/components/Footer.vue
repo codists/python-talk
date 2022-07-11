@@ -1,9 +1,11 @@
 <template>
   <div class="footer">
-    <span>
-      Copyright ©2001-2022.
-      <a href="https://github.com/codists/python-talk" target="_blank">Github</a>
+    <span class="left-item">
+      Copyright ©PythonTalk from 2022
     </span>
+    <a href="https://github.com/codists/python-talk" target="_blank" class="right-item">
+      <img src="@/assets/images/GitHub-Mark-Light-32px.png" class="github-logo" alt="python-talk repository">
+    </a>
   </div>
 </template>
 
@@ -16,5 +18,20 @@
   line-height: 80px;
   text-align: center;
   margin: 12px auto;
+}
+
+.left-item {
+  display: inline-block;
+  height: 100%;
+  margin-right: 20px;
+}
+
+.right-item {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+img {
+  display: block;
 }
 </style>

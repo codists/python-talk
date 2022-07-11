@@ -11,7 +11,9 @@ import Footer from '@/components/Footer'
     <el-main class="main">
       <router-view></router-view>
     </el-main>
-    <Footer></Footer>
+    <el-footer>
+      <Footer/>
+    </el-footer>
   </el-container>
 </template>
 
@@ -34,5 +36,7 @@ import Footer from '@/components/Footer'
   /* 取消布局里面main层的padding*/
   --el-main-padding: 0;
 }
-
+.el-footer {
+  margin-bottom: 48px;
+}
 </style>

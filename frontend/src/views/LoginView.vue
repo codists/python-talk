@@ -44,7 +44,7 @@ const form = reactive({
 });
 
 const onLogin = () => {
-  console.log(form);
+  console.log('in LoginVIew');
 };
 
 const onForgotPassword = () => {};
