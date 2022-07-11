@@ -1,5 +1,5 @@
 """
-application factory参考： https://flask.palletsprojects.com/en/latest/patterns/appfactories/
+application factory reference： https://flask.palletsprojects.com/en/latest/patterns/appfactories/
 """
 from flask import Flask
 
