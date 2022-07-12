@@ -33,20 +33,22 @@ class Config(object):
         'result_backend': 'redis://localhost:6379/0'
     }
 
+    # sqlalchemy
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 
 class ProductionConfig(Config):
-    DATABASE_URI = 'mysql://user@localhost/foo'
+    SQLALCHEMY_DATABASE_URI = 'mysql://user@localhost/foo'
 
 
 class DevelopmentConfig(Config):
-    # turn on debug
-    DATABASE_URI = prefix + os.path.join(basedir, 'dev.db')
+    SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'development.db')
     FLASK_ENV = 'development'
     FLASK_RUN_PORT = 9000
 
 
 class TestingConfig(Config):
-    DATABASE_URI = 'sqlite:///:memory:'
+    SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'test.db')
     TESTING = True
 
 
