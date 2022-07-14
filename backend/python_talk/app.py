@@ -4,7 +4,7 @@ application factory reference： https://flask.palletsprojects.com/en/latest/pat
 from flask import Flask
 
 from python_talk.config import config_class_name
-from python_talk.extensions import mail, celery, db
+from python_talk.extensions import mail, celery, db, migrate
 
 
 def create_app(config_name=None):
@@ -24,6 +24,7 @@ def register_extensions(app):
     mail.init_app(app)
     celery.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
 
 
 def register_blueprints(app):
