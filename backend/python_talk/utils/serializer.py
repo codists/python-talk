@@ -11,7 +11,7 @@ bool            boolean
 None            null
 """
 
-BASE_TUPLES = (
+BASE_TYPES = (
     dict,
     tuple, list,
     str,
@@ -25,7 +25,7 @@ SERIALIZER = '__serializer__'
 DATETIME_FORMATTER = '%Y-%m-%d %H:%M:%S'
 
 
-def __check_type(instance, types=BASE_TUPLES):
+def __check_type(instance, types=BASE_TYPES):
     """
     判断实例是否属于某些类型（不包含它们的子类）
     注意与 isinstance 的区别
@@ -37,24 +37,22 @@ def __check_type(instance, types=BASE_TUPLES):
     return False
 
 
-def serializer(instance_instances, fields=None, funcs=None):
+def serializer(instance_instances, fields=None, funcs=None, top=None):
     """
     Usage:
         user = User.query.get(1)
         serializer(user, ['username', {'articles': ['id', 'title']}])
-    or  serializer(user, ['username', 'created_at'], {datetime: lambda dt: dt.strftime('%Y-%m-%d')})
     """
     if isinstance(instance_instances, Iterable):
-        return [serializer(instance, fields, funcs) for instance in instance_instances]
+        return [serializer(instance, fields, funcs, top=top) for instance in instance_instances]
 
     instance = instance_instances
     fields = fields or getattr(instance, SERIALIZER, [])
 
     funcs = funcs or {}
-    if not funcs:
-        funcs.update({
-            datetime: lambda dt: dt.strftime(DATETIME_FORMATTER),
-        })
+    funcs.update({
+        datetime: lambda dt: dt.strftime(DATETIME_FORMATTER),
+    })
 
     result = {}
 
@@ -62,13 +60,14 @@ def serializer(instance_instances, fields=None, funcs=None):
         if isinstance(field_name, str):
             field_value = getattr(instance, field_name)
             if not __check_type(field_value):
-                func = funcs.get(field_name) or funcs.get(type(field_value))
-                field_value = func(field_value) if func else serializer(field_value, funcs=funcs)
+                func_key = f'{top}.{field_name}' if top else field_name
+                func = funcs.get(func_key) or funcs.get(type(field_value))
+                field_value = func(field_value) if func else serializer(field_value, funcs=funcs, top=field_name)
 
             result[field_name] = field_value
 
         elif isinstance(field_name, dict):
             for f, child_fields in field_name.items():
-                result[f] = serializer(getattr(instance, f), child_fields, funcs)
+                result[f] = serializer(getattr(instance, f), child_fields, funcs, top=f)
 
     return result
