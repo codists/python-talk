@@ -45,12 +45,16 @@ def serializer(instance_instances, fields=None, funcs=None):
     or  serializer(user, ['username', 'created_at'], {datetime: lambda dt: dt.strftime('%Y-%m-%d')})
     """
     if isinstance(instance_instances, Iterable):
-        return [serializer(instance, fields) for instance in instance_instances]
+        return [serializer(instance, fields, funcs) for instance in instance_instances]
 
     instance = instance_instances
     fields = fields or getattr(instance, SERIALIZER, [])
+
     funcs = funcs or {}
-    funcs.update({datetime: lambda dt: dt.strftime(DATETIME_FORMATTER)})
+    if not funcs:
+        funcs.update({
+            datetime: lambda dt: dt.strftime(DATETIME_FORMATTER),
+        })
 
     result = {}
 
@@ -59,13 +63,12 @@ def serializer(instance_instances, fields=None, funcs=None):
             field_value = getattr(instance, field_name)
             if not __check_type(field_value):
                 func = funcs.get(field_name) or funcs.get(type(field_value))
-                field_value = func(field_value) if func else serializer(field_value)
+                field_value = func(field_value) if func else serializer(field_value, funcs=funcs)
 
             result[field_name] = field_value
 
         elif isinstance(field_name, dict):
             for f, child_fields in field_name.items():
-                child = getattr(instance, f)
-                result[f] = serializer(child, child_fields)
+                result[f] = serializer(getattr(instance, f), child_fields, funcs)
 
     return result
