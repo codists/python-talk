@@ -30,7 +30,7 @@ serializer(user, ['id'], funcs={
 """
 
 from datetime import datetime
-from collections.abc import Iterable
+from collections import abc, ChainMap
 
 __all__ = ['serializer', ]
 
@@ -70,7 +70,7 @@ class Serializer:
         return self.serializer(instance_instances, fields, funcs)
 
     def serializer(self, instance_instances, fields=None, funcs=None, top=None):
-        if isinstance(instance_instances, Iterable):
+        if isinstance(instance_instances, abc.Iterable):
             return [self.serializer(instance, fields, funcs, top=top) for instance in instance_instances]
 
         instance = instance_instances
@@ -82,7 +82,7 @@ class Serializer:
             if isinstance(field_name, str):
                 value = getattr(instance, field_name)
                 func_key = f'{top}.{field_name}' if top else field_name
-                func = funcs.get(func_key) or funcs.get(type(value)) or self.default_funcs.get(type(value))
+                func = funcs.get(func_key) or ChainMap(funcs, self.default_funcs).get(type(value))
                 if func:
                     value = func(value)
 
