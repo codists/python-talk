@@ -174,6 +174,6 @@ class RequestParser:
                 'message': messages,
             })
             response.status_code = 400
-            raise abort(response)
+            abort(response)
 
         return result
