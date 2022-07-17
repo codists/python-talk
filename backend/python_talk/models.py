@@ -23,6 +23,10 @@ class Base(db.Model):
         db.session.commit()
         return self
 
+    @classmethod
+    def find_by_id(cls, id_):
+        return cls.query.get(id_)
+
 
 class User(Base):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +34,8 @@ class User(Base):
     email = db.Column(db.String(100), nullable=False, unique=True)
     __password = db.Column('password', db.String(255), nullable=False)
     avatar = db.Column(db.String(512))
+
+    __serializer__ = ['id', 'username', 'email', 'avatar', 'created_at']
 
     def __init__(self, username, email, password, avatar=None):
         self.username = username
@@ -47,3 +53,11 @@ class User(Base):
 
     def check_password(self, value):
         return check_password_hash(self.__password, value)
+
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def find_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()

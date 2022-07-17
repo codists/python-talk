@@ -18,6 +18,7 @@ def create_app(config_name=None):
     app.config.from_object(config_class_name[config_name])
     register_extensions(app)
     register_blueprints(app)
+    register_errorhandler(app)
     inject_shell(app)
 
     return app
@@ -42,3 +43,7 @@ def inject_shell(app):
             'db': db,
             'User': User,
         }
+
+
+def register_errorhandler(app):
+    pass
