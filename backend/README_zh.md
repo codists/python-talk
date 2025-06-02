@@ -1,4 +1,25 @@
-# How to run project
+# Python  版本
+
+3.10.12
+
+# 如何部署项目
+
+- backend
+
+后端使用Ubuntu、Docker、Nginx、Gunicorn、MySQL、Redis 进行部署。
+
+```
+
+
+```
+
+- frontend
+
+前端采用 Nginx 进行部署。
+
+```
+
+```
 
 
 
