@@ -1,28 +1,14 @@
 services:
   python_talk:
-    image: python_talk:1.0
+    image: python_talk:0.0.1
     container_name: python_talk
     ports:
       - "5000:5000"
     volumes:
-      - ./python_talk/:/app
+      - .:/app
     environment:
       - TZ=Asia/Shanghai
+    # Gunicorn 会在 /app 目录下寻找 entrypoint 模块, 因为 是将 backend 挂载到 /app, 所以用 python_talk.entrypoint，
+    # 而不是 entrypoint
+    command: gunicorn -w 4 -b 0.0.0.0:5000 python_talk.entrypoint:app
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - "3306:3306"
-
-  redis:
-    image: redis:8.0
-    container_name: redis
-    restart: always
-    ports:
-      - "6379:6379"
-    volumes:
-      - /data/redis/data:/data
-      - /data/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
