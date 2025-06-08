@@ -1,4 +1,5 @@
 # 考虑到 mysql, redis, Nginx 可能被多个服务共用，所以拆分到 docker-compose-common.yml 中
+
 services:
   mysql:
     image: mysql:8.0
@@ -6,6 +7,8 @@ services:
     restart: always
     ports:
       - "3306:3306"
+    environment:
+      - TZ=Asia/Shanghai
 
   redis:
     image: redis:latest
@@ -18,6 +21,8 @@ services:
       # 一般来说为了通用应该使用相对路径，以便可以直接迁移到其它服务器
       - /data/redis/data:/data
       - /data/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
 
   nginx:
     image: nginx:1.27
@@ -30,3 +35,5 @@ services:
       - /data/nginx/conf.d:/etc/nginx/conf.d
       - /data/nginx/logs:/var/log/nginx
       - /data/frontend/dist:/data/frontend/dist:ro
+    environment:
+      - TZ=Asia/Shanghai
