@@ -1,4 +1,11 @@
-# 考虑到 mysql, redis, Nginx 可能被多个服务共用，所以拆分到 docker-compose-common.yml 中
+# 部署说明
+
+# 考虑到 mysql, redis, Nginx 可能被多个服务共用，所以拆分到公共的 docker-compose-common.yml 中
+
+# environment: 容器默认使用 UTC 时间，通过 environment 设置 TZ=Asia/Shanghai 使之变为本地时间.
+#             为了避免重复修改，可通过读取配置文件内容来提升灵活性.
+
+# volumes: 为了方便代码部署到不同的服务器，路径最好使用相对路径，不要用绝对路径。
 
 services:
   mysql:
@@ -17,10 +24,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      # 这里使用绝对路径是为了方便理解项目结构， docker-compose-common.yml 位于 /data 目录下
-      # 一般来说为了通用应该使用相对路径，以便可以直接迁移到其它服务器
-      - /data/redis/data:/data
-      - /data/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - TZ=Asia/Shanghai
 
@@ -31,9 +36,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /data/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /data/nginx/conf.d:/etc/nginx/conf.d
-      - /data/nginx/logs:/var/log/nginx
-      - /data/frontend/dist:/data/frontend/dist:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ../frontend/:/frontend
     environment:
       - TZ=Asia/Shanghai

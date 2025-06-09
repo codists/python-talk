@@ -27,12 +27,6 @@ python-talk/backend$ pip install -r requirements.txt
 ```shell
 python-talk/backend$ flask run
 ```
-# How to run Celery
-**Note:** If you use rabbitmq or redis, and so on, please start they before starting Celery.
-```shell
-python-talk/backend$ celery -A python_talk.entrypoint.celery worker -l info
-
-```
 # How to run frontend
 - clone
     ```shell
@@ -48,4 +42,10 @@ python-talk/backend$ celery -A python_talk.entrypoint.celery worker -l info
     python-talk/frontend$ npm run serve
     ```
 
+# How to deploy project in production?
 
+- **Deployment Structure**
+
+考虑到有多个应用的场景，同时为了保证部署的可扩展性，采用下面的部署结构。项目部署到 /www 目录下。
+
+```├── backend
