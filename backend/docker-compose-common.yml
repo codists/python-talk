@@ -14,8 +14,15 @@ services:
     restart: always
     ports:
       - "3306:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      # 参考 https://dev.mysql.com/doc/refman/8.0/en/option-files.html
+      # MySQL 会读取 /etc/my.cnf 文件，文件里面的 !includedir /etc/mysql/conf.d/ 会读取 /etc/mysql/conf.d/ 目录里面的配置文件
+      - ./mysql/conf.d:/etc/mysql/conf.d
     environment:
       - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
 
   redis:
     image: redis:latest
