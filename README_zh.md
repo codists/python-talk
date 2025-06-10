@@ -98,26 +98,28 @@ flask run
 
 ```
 # 拉取代码
-mkdir -p /www/temp
-cd /www/temp
+mkdir -p /www/code
+cd /www/code
 git clone https://github.com/codists/python-talk.git
 
 # 前端(frontend)设置
 mkdir -p /www/frontend/python_talk
-cd /www/temp/python-talk/frontend
-npm install
+cd /www/code/python-talk/frontend
+npm install # 如果未安装 npm, 先安装 npm, 示例：sudo apt install npm -y
 npm run build # 得到一个 dist 目录
-cp -r /www/temp/python-talk/frontend/dist /www/frontend/python_talk/
+cp -r /www/code/python-talk/frontend/dist /www/frontend/python_talk/
 
-# 公共应用(mysql, redis, nginx)设置及启动
-cp -r /www/temp/python-talk/deployment/common /www
+# 公共应用(mysql, redis, nginx)设置与运行
+cp -r /www/code/python-talk/deployment/common /www
 cd /www/common/
 docker compose -f docker-compose-common.yml up -d
 
-# 后端(python_talk)设置及启动
+# 后端(python_talk)设置与运行
 mkdir -p /www/backend/python_talk
-cp -r /www/temp/python-talk/backend/ /www/backend/python_talk/
+cp -r /www/code/python-talk/backend/ /www/backend/python_talk/
 cd /www/backend/python_talk/backend
-docker compose up -d
+docker build -t python_talk:0.0.1 /www/backend/python_talk/backend
+docker compose -f /www/backend/python_talk/backend/docker-compose.yml up -d
+
 ```
 

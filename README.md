@@ -100,25 +100,25 @@ Generally, there's no need to pull the code repository during deployment — the
 
 ```
 # pull code
-mkdir -p /www/temp
-cd /www/temp
+mkdir -p /www/code
+cd /www/code
 git clone https://github.com/codists/python-talk.git
 
 # frontend setting
 mkdir -p /www/frontend/python_talk
-cd /www/temp/python-talk/frontend
-npm install
-npm run build # it will get a dist directory
-cp -r /www/temp/python-talk/frontend/dist /www/frontend/python_talk/
+cd /www/code/python-talk/frontend
+npm install # if you doesn't install npm, install it with command "sudo apt install npm -y" 
+npm run build # it will generate a dist directory
+cp -r /www/code/python-talk/frontend/dist /www/frontend/python_talk/
 
 # common applications(mysql, redis, nginx) setting and run
-cp -r /www/temp/python-talk/deployment/common /www
+cp -r /www/code/python-talk/deployment/common /www
 cd /www/common/
 docker compose -f docker-compose-common.yml up -d
 
 # backend(python_talk)setting and run
 mkdir -p /www/backend/python_talk
-cp -r /www/temp/python-talk/backend/ /www/backend/python_talk/
+cp -r /www/code/python-talk/backend/ /www/backend/python_talk/
 cd /www/backend/python_talk/backend
 docker compose up -d
 ```
