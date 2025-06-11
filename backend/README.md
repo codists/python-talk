@@ -1,8 +1,4 @@
-# How to run project
-
-
-
-# Plugins used in project
+# Libraries used in project
 
 - Flask-Mail
     ```python
@@ -19,6 +15,13 @@
 - python-dotenv
   ```python
   https://saurabh-kumar.com/python-dotenv/
+  ```
+
+
+- flask-smorest
+
+  ```
+  https://flask-smorest.readthedocs.io/en/latest/index.html
   ```
 
   

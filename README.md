@@ -120,6 +120,7 @@ docker compose -f docker-compose-common.yml up -d
 mkdir -p /www/backend/python_talk
 cp -r /www/code/python-talk/backend/ /www/backend/python_talk/
 cd /www/backend/python_talk/backend
-docker compose up -d
+docker build -t python_talk:0.0.1 /www/backend/python_talk/backend
+docker compose -f /www/backend/python_talk/backend/docker-compose.yml up -d
 ```
 
