@@ -3,18 +3,18 @@ from datetime import datetime
 from flask import Blueprint
 
 from python_talk.models import User
+# from python_talk.tasks import async_send_email, hello_world
+from python_talk.utils.reqparse import EmailValidator, LengthValidator, RequestParser
 from python_talk.utils.serializer import serializer
-from python_talk.tasks import hello_world, async_send_email
-from python_talk.utils.reqparse import RequestParser, LengthValidator, EmailValidator
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
 
-@user_bp.get('/')
-def test():
-    print('test')
-    hello_world.delay()
-    return 'This is test'
+# @user_bp.get('/')
+# def test():
+#     print('test')
+#     hello_world.delay()
+#     return 'This is test'
 
 
 @user_bp.get('/email')
