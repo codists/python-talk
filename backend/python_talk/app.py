@@ -6,6 +6,7 @@ from flask import Flask
 from python_talk.blueprints.user import user_bp
 from python_talk.extensions import api, db, mail, migrate
 from python_talk.models import User
+from python_talk.api import register_blueprint
 
 
 def configure_app(app: Flask):
@@ -24,7 +25,7 @@ def create_app():
     app = Flask(__name__)
     configure_app(app)
     register_extensions(app)
-    register_blueprints(app)
+    register_blueprint()
     register_errorhandler(app)
     inject_shell(app)
 
@@ -37,10 +38,6 @@ def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     api.init_app(app)
-
-
-def register_blueprints(app):
-    app.register_blueprint(user_bp, url_prefix='/user')
 
 
 def inject_shell(app):
