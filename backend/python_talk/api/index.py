@@ -43,4 +43,7 @@ class IndexView(MethodView):
 
 @bp.route("/docs/local")
 def specs():
+    """本地 API 文档
+
+    """
     return render_template("swagger-ui.html")
