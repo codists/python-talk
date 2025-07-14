@@ -2,7 +2,7 @@
 # @Author: codists
 # @Created: 2025-07-12 15:55:21
 """
-flask-smorest demo
+flask-smorest demo，仅用于测试
 """
 
 # response 采用原始式
@@ -10,9 +10,11 @@ import marshmallow as ma
 from flask_smorest import Blueprint, abort
 from flask.views import MethodView
 
+
 class ItemNotFoundError(Exception):
     """Custom exception for when a pet is not found."""
     pass
+
 
 class Pet:
     _pets = []
@@ -62,15 +64,17 @@ class Pet:
         cls._pets.remove(pet)
 
 
-
 class PetSchema(ma.Schema):
     id = ma.fields.Int(dump_only=True)
     name = ma.fields.String()
 
+
 class PetQueryArgsSchema(ma.Schema):
     name = ma.fields.String()
 
-bp = Blueprint("pets", "pets", url_prefix="/api/pets", description="Operations on pets")
+
+bp = Blueprint("pets", "pets", url_prefix="/api/pets",
+               description="flask-smorest demo, 仅用于快速验证 flask-smorest 相关功能，无实际意义")
 
 
 @bp.route("/")
