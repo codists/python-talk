@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Blueprint
 
-from python_talk.models import User
+from python_talk.models.user import User
 # from python_talk.tasks import async_send_email, hello_world
 from python_talk.utils.reqparse import EmailValidator, LengthValidator, RequestParser
 from python_talk.utils.serializer import serializer

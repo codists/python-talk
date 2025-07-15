@@ -5,7 +5,7 @@ from flask import Flask
 
 from python_talk.blueprints.user import user_bp
 from python_talk.extensions import api, db, mail, migrate
-from python_talk.models import User
+from python_talk.models.user import User
 from python_talk.api import register_blueprint
 
 
