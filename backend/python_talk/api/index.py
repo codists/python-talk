@@ -10,6 +10,20 @@ from flask_smorest import Blueprint
 bp = Blueprint("index", __name__, url_prefix="/api", description="首页")
 
 
+# 首页：函数视图实现
+# @bp.route("/index", methods=["GET"])
+# @bp.response(200)
+# def index():
+#     """首页
+#
+#     """
+#     ret = {
+#         'data': 'welcome to Python Talk'
+#     }
+#     return ret
+
+
+# 首页：类视图方式实现
 @bp.route("/index", methods=["GET"])
 class IndexView(MethodView):
     """首页
@@ -33,15 +47,3 @@ def specs():
 
     """
     return render_template("swagger-ui.html")
-
-# 方式 1
-# @bp.route("/index", methods=["GET"])
-# @bp.response(200)
-# def index():
-#     """首页
-#
-#     """
-#     ret = {
-#         'data': 'welcome to Python Talk'
-#     }
-#     return ret
