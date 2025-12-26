@@ -7,7 +7,7 @@ from python_talk.models.base import ModelMixin, PkModel
 
 
 class User(PkModel, ModelMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     username = db.Column(db.String(128), index=True, unique=True, comment='用户名')
     password = db.Column(db.String(64), comment='密码')

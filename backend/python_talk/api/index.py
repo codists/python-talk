@@ -1,6 +1,8 @@
 # @Filename: index.py
 # @Author: codists
 # @Created: 2025-07-12 14:43:00
+import datetime
+import json
 
 from flask import render_template
 from flask.views import MethodView
@@ -36,7 +38,8 @@ class IndexView(MethodView):
 
         """
         ret = {
-            'data': 'welcome to Python Talk'
+            'data': 'welcome to Python Talk',
+            'time': json.dumps(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         }
         return ret
 
