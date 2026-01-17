@@ -1,32 +1,37 @@
+
 <script setup>
 // 获取后端传递过来的菜单栏
 
-// 模拟数据
-const menus = [
-  {
-    id: 1,
-    path: "",
-    name: "首页"
-  },
-  {
-    id: 2,
-    path: "login",
-    name: "登录"
-  },
-  {
-    id: 3,
-    path: "register",
-    name: "注册"
-  },
-]
-import {ref} from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-const activeIndex = ref('1')
-const handleSelect = () => {
-  console.log('in header.vue')
+const menus = ref([])
+
+const activeIndex = ref('/home')
+
+
+const fetchMenus = async () => {
+  try {
+    const res = await axios.get('http://26.26.26.1:5000/api/menus/')
+    const rawMenus = res.data
+
+
+    menus.value = rawMenus.filter(item => item.parent_id === null)
+  } catch (err) {
+    console.error('获取菜单失败', err)
+  }
 }
+
+const handleSelect = (index) => {
+  console.log('menu selected:', index)
+}
+
+onMounted(() => {
+  fetchMenus()
+})
 </script>
 
+<!-- 菜单栏 -->
 <template>
   <el-menu
       :default-active="activeIndex"

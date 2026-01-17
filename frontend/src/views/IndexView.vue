@@ -18,18 +18,22 @@ import Footer from '@/components/Footer'
 </template>
 
 <style>
+.el-header {
+  width: 100%;     
+  margin: 0;      
+  padding: 0;
+}
 .header {
-  width: 80%;
+  width: 100%;
   height: 42px;
   padding: 0;
-  margin: 48px auto 12px;
 }
 
 .main {
-  width: 80%;
+  width: 100%;
   height: 860px;
   /*background-color: azure;*/
-  margin: 25px auto;
+  margin: 0px auto;
 }
 
 .el-main {
@@ -37,6 +41,8 @@ import Footer from '@/components/Footer'
   --el-main-padding: 0;
 }
 .el-footer {
-  margin-bottom: 48px;
+  width: 100%;     
+  margin: 0;      
+  padding: 0;
 }
 </style>
