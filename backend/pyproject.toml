@@ -1,0 +1,20 @@
+[project]
+name = "python_talk"
+version = "0.1.0"
+dependencies = [
+    "apscheduler>=3.11.2",
+    "dotenv>=0.9.9",
+    "flask>=3.1.2",
+    "flask-mail>=0.10.0",
+    "flask-migrate>=4.1.0",
+    "flask-smorest>=0.46.2",
+    "flask-sqlalchemy>=3.1.1",
+    "gunicorn>=23.0.0",
+    "pymysql>=1.1.2",
+    "redis>=7.1.0",
+    "requests>=2.32.5",
+    "scrapy>=2.13.4",
+    "scrapyd>=1.6.0",
+    "scrapyd-client>=2.0.3",
+]
+

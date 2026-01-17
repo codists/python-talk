@@ -24,4 +24,6 @@
   https://flask-smorest.readthedocs.io/en/latest/index.html
   ```
 
-  
+
+# OpenAPI address
+

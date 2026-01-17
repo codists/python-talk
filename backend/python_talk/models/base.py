@@ -2,6 +2,8 @@
 # @Author: codists
 # @Created: 2025-07-14 23:13:17
 import datetime as dt
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import BigInteger, DateTime, func
 
 from python_talk.extensions import db
 
@@ -22,9 +24,9 @@ class PkModel(Model):
     """
     __abstract__ = True
 
-    id = db.Column(db.BigInteger, primary_key=True)
-    create_time = db.Column(db.DateTime, default=dt.datetime.now, comment='创建时间')
-    update_time = db.Column(db.DateTime, default=dt.datetime.now, onupdate=dt.datetime.now, comment='更新时间')
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    create_time: Mapped[dt.datetime] = mapped_column(DateTime, server_default=func.now(), comment='创建时间')
+    update_time: Mapped[dt.datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=dt.datetime.now, comment='更新时间')
 
     @classmethod
     def create(cls, commit=True, **kwargs):

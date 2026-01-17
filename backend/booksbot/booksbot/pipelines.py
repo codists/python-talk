@@ -59,10 +59,22 @@ class BookPipeline:
                     'publication_date': datetime.strptime(item['date'], "%Y-%m-%dT%H:%M:%S%z").date(),
                 }
                 book = Book(**book_data)
-                book.authors = [author]
+                book.authors = authors
 
                 db.session.add(book)
-                db.session.commit()
+            else:
+                existing_book.title = item['title']
+                existing_book.price = item['price']
+                existing_book.url = item['link']
+                existing_book.publisher = item['publisher']
+                existing_book.publication_date = datetime.strptime(item['date'], "%Y-%m-%dT%H:%M:%S%z").date()
+
+                # 更新作者关系（如果需要）
+                # 先清空现有作者关系，然后重新建立
+                existing_book.authors.clear()
+                existing_book.authors.extend(authors)
+
+            db.session.commit()
 
     def open_spider(self, spider):
         # print('spider 打开')

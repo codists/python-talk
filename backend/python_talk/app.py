@@ -3,10 +3,9 @@ application factory reference： https://flask.palletsprojects.com/en/latest/pat
 """
 from flask import Flask
 
-from python_talk.blueprints.user import user_bp
-from python_talk.extensions import api, db, mail, migrate
-from python_talk.models.user import User
 from python_talk.api import register_blueprint
+from python_talk.extensions import api, cors, db, mail, migrate
+from python_talk.models.user import User
 
 
 def configure_app(app: Flask):
@@ -16,6 +15,7 @@ def configure_app(app: Flask):
     from python_talk import config
     config.load(app)
     app.url_map.strict_slashes = False
+
 
 def create_app():
     """
@@ -28,6 +28,7 @@ def create_app():
     register_blueprint()
     register_errorhandler(app)
     inject_shell(app)
+    app.json.ensure_ascii = False
 
     return app
 
@@ -38,10 +39,10 @@ def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     api.init_app(app)
+    cors.init_app(app)
 
 
 def inject_shell(app):
-
     @app.shell_context_processor
     def inject():
         return {

@@ -2,6 +2,7 @@ from decimal import Decimal
 from typing import Optional, List
 from datetime import date
 
+# Numeric 等数据类型
 from sqlalchemy import Numeric
 from sqlalchemy.orm import Mapped, mapped_column
 

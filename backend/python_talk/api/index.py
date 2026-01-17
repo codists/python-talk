@@ -50,3 +50,5 @@ def specs():
 
     """
     return render_template("swagger-ui.html")
+
+
