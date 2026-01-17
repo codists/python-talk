@@ -22,6 +22,9 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      - backend
+
 
 
   redis:
@@ -35,6 +38,8 @@ services:
       - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - TZ=Asia/Shanghai
+    networks:
+      - backend
 
   nginx:
     image: nginx:1.27
@@ -49,3 +54,9 @@ services:
       - ../frontend/:/frontend
     environment:
       - TZ=Asia/Shanghai
+    networks:
+      - backend
+      
+networks:
+  backend:
+    driver: bridge
