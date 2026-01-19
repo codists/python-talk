@@ -18,6 +18,8 @@ class BookSchema(ma.Schema):
     authors = ma.fields.Nested('AuthorSchema', many=True, exclude=('books',))
     publisher = ma.fields.String()
     publication_date = ma.fields.Date()
+    image_url = ma.fields.String()
+
 
 
 class BookQueryArgsSchema(ma.Schema):

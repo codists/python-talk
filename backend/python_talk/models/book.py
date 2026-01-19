@@ -40,6 +40,7 @@ class Book(PkModel, ModelMixin):
     authors: Mapped[List['Author']] = db.relationship(secondary=book_author,back_populates='books')
     publisher: Mapped[Optional[str]] = mapped_column(db.String(255), nullable=True)
     publication_date: Mapped[Optional[date]] = mapped_column(db.Date, nullable=True)
+    image_url: Mapped[Optional[str]] = mapped_column(db.String(255), nullable=True)
 
     def __repr__(self):
         return f'<Book {self.title}>'
