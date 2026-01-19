@@ -3,7 +3,7 @@
 
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
+import request from '@/utils/requests'
 
 const router = useRouter()
 const route = useRoute()
@@ -23,11 +23,10 @@ const activeIndex = computed(() => {
 
 const fetchMenus = async () => {
   try {
-    const res = await axios.get('http://26.26.26.1:5000/api/menus/')
-    const rawMenus = res.data
-
+    const res = await request.get('/menus/')
+    console.log('菜单数据：', res)
     // 过滤出一级菜单
-    menus.value = rawMenus.filter((item) => item.parent_id === null)
+    menus.value = res.filter((item) => item.parent_id === null)
   } catch (err) {
     console.error('获取菜单失败', err)
   }

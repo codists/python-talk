@@ -3,7 +3,8 @@ import axios from 'axios'
 
 // 创建 axios 实例
 const request = axios.create({
-  baseURL: 'http://26.26.26.1:5000/api',
+  baseURL: process.env.VUE_APP_BASE_URL,
+  // timeout 单位是：毫秒（milliseconds）
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
