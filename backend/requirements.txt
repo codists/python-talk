@@ -75,6 +75,8 @@ flask-sqlalchemy==3.1.1
     #   flask-migrate
 greenlet==3.3.0
     # via sqlalchemy
+gunicorn==23.0.0
+    # via -r requirements.in
 hyperlink==21.0.0
     # via twisted
 idna==3.11
@@ -120,6 +122,7 @@ packaging==25.0
     # via
     #   apispec
     #   build
+    #   gunicorn
     #   incremental
     #   parsel
     #   scrapy
