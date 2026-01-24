@@ -6,6 +6,8 @@
 #
 alembic==1.17.2
     # via flask-migrate
+amqp==5.3.1
+    # via kombu
 apispec[marshmallow]==6.9.0
     # via flask-smorest
 apscheduler==3.11.2
@@ -16,12 +18,16 @@ attrs==25.4.0
     #   twisted
 automat==25.4.16
     # via twisted
+billiard==4.2.4
+    # via celery
 blinker==1.9.0
     # via
     #   flask
     #   flask-mail
 build==1.3.0
     # via pip-tools
+celery==5.6.2
+    # via -r requirements.in
 certifi==2025.11.12
     # via requests
 cffi==2.0.0
@@ -30,8 +36,18 @@ charset-normalizer==3.4.4
     # via requests
 click==8.3.1
     # via
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
     #   flask
     #   pip-tools
+click-didyoumean==0.3.1
+    # via celery
+click-plugins==1.1.1.2
+    # via celery
+click-repl==0.3.0
+    # via celery
 colorama==0.4.6
     # via
     #   build
@@ -75,8 +91,6 @@ flask-sqlalchemy==3.1.1
     #   flask-migrate
 greenlet==3.3.0
     # via sqlalchemy
-gunicorn==23.0.0
-    # via -r requirements.in
 hyperlink==21.0.0
     # via twisted
 idna==3.11
@@ -100,6 +114,8 @@ jmespath==1.0.1
     # via
     #   itemloaders
     #   parsel
+kombu==5.6.2
+    # via celery
 lxml==6.0.2
     # via
     #   parsel
@@ -122,8 +138,8 @@ packaging==25.0
     # via
     #   apispec
     #   build
-    #   gunicorn
     #   incremental
+    #   kombu
     #   parsel
     #   scrapy
     #   scrapyd
@@ -134,6 +150,8 @@ parsel==1.10.0
     #   scrapy
 pip-tools==7.5.2
     # via -r requirements.in
+prompt-toolkit==3.0.52
+    # via click-repl
 protego==0.5.0
     # via scrapy
 pyasn1==0.6.1
@@ -154,8 +172,12 @@ pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
+python-dateutil==2.9.0.post0
+    # via celery
 python-dotenv==1.2.1
-    # via dotenv
+    # via
+    #   -r requirements.in
+    #   dotenv
 pywin32==311 ; sys_platform == "win32"
     # via
     #   -r requirements.in
@@ -183,6 +205,8 @@ scrapyd-client==2.0.3
     # via -r requirements.in
 service-identity==24.2.0
     # via scrapy
+six==1.17.0
+    # via python-dateutil
 sqlalchemy==2.0.45
     # via
     #   alembic
@@ -200,18 +224,29 @@ typing-extensions==4.15.0
     #   sqlalchemy
     #   twisted
 tzdata==2025.3
-    # via tzlocal
+    # via
+    #   kombu
+    #   tzlocal
 tzlocal==5.3.1
-    # via apscheduler
+    # via
+    #   apscheduler
+    #   celery
 uberegg==0.1.1
     # via scrapyd-client
 urllib3==2.6.2
     # via requests
+vine==5.1.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
 w3lib==2.3.1
     # via
     #   parsel
     #   scrapy
     #   scrapyd
+wcwidth==0.3.2
+    # via prompt-toolkit
 webargs==8.7.1
     # via flask-smorest
 werkzeug==3.1.4
